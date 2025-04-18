@@ -12,7 +12,6 @@ import { useEffect, useRef } from 'react';
 import { AlertNotificationHandle } from '../../commonComponents/Alert';
 
 const Dashboard = () => {
-
   const {
     updateSelectedArticle,
     articles,
@@ -25,13 +24,12 @@ const Dashboard = () => {
   } = useArticleFetch();
 
   const alertRef = useRef<AlertNotificationHandle>(null);
-  
+
   useEffect(() => {
     if (alertMessage.message) {
       if (alertMessage.type === 'error') {
         alertRef.current?.showAlert(alertMessage.message, alertMessage.type);
-      }
-      else {
+      } else {
         alertRef.current?.showAlert(alertMessage.message);
       }
     }
@@ -46,44 +44,38 @@ const Dashboard = () => {
               { value: '1', label: 'For Today' },
               { value: '7', label: 'For Week' },
               { value: '30', label: 'For Month' },
-
             ]}
             value={selectedDuration}
-            placeholder="Select duration"
+            placeholder='Select duration'
             onChange={(e) => setSelectedDuration(e.target.value as string)}
             width={'35%'}
           />
-          <Typography variant="h6">Most Read Article</Typography>
-          <SearchInput value={searchText} onChange={setSearchText}
+          <Typography variant='h6'>Most Read Article</Typography>
+          <SearchInput
+            value={searchText}
+            onChange={setSearchText}
             width={'35%'}
-            placeholder="Search for articles"
+            placeholder='Search for articles'
           />
         </Container>
         <ArticleContainer>
-
-          {
-            loading ? (
-              <LoaderContainer>
-                <CircularProgress />
-              </LoaderContainer>
-            ) :
-              articles.length === 0 ? (
-                <NoArticlesText >
-                  No articles found
-                </NoArticlesText>
-              ) : (
-                articles.map((item) => (
-                  <Box onClick={() => updateSelectedArticle(item.id)} key={item.id}>
-                    <ArticleCard key={item.id} item={item} />
-                  </Box>
-                )))
-          }
+          {loading ? (
+            <LoaderContainer>
+              <CircularProgress />
+            </LoaderContainer>
+          ) : articles.length === 0 ? (
+            <NoArticlesText>No articles found</NoArticlesText>
+          ) : (
+            articles.map((item) => (
+              <Box onClick={() => updateSelectedArticle(item.id)} key={item.id}>
+                <ArticleCard key={item.id} item={item} />
+              </Box>
+            ))
+          )}
         </ArticleContainer>
-
       </MainContainer>
       <AlertNotification ref={alertRef} />
     </>
-
   );
 };
 export default Dashboard;

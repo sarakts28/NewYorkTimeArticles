@@ -1,10 +1,5 @@
 import React from 'react';
-import {
-  TextField,
-  InputAdornment,
-  IconButton,
-  Box,
-} from '@mui/material';
+import { TextField, InputAdornment, IconButton, Box } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import ClearIcon from '@mui/icons-material/Clear';
 
@@ -36,23 +31,22 @@ const SearchInput: React.FC<SearchInputProps> = ({
         fullWidth
         InputProps={{
           startAdornment: (
-            <InputAdornment position="start">
+            <InputAdornment position='start'>
               <SearchIcon />
             </InputAdornment>
           ),
           endAdornment: clearable && value && (
-            <InputAdornment position="end">
-              <IconButton onClick={handleClear} size="small">
-                <ClearIcon fontSize="small" />
+            <InputAdornment position='end'>
+              <IconButton onClick={handleClear} size='small'>
+                <ClearIcon fontSize='small' />
               </IconButton>
             </InputAdornment>
           ),
         }}
         sx={{
           '& .MuiOutlinedInput-root': {
-            borderRadius: '4px', 
+            borderRadius: '4px',
             height: '40px',
-            
           },
         }}
       />

@@ -28,7 +28,7 @@ const AlertNotification = forwardRef<AlertNotificationHandle>((_, ref) => {
   }));
 
   const handleClose = () => {
-    setAlert(prev => ({ ...prev, open: false }));
+    setAlert((prev) => ({ ...prev, open: false }));
   };
 
   return (
@@ -41,7 +41,7 @@ const AlertNotification = forwardRef<AlertNotificationHandle>((_, ref) => {
       <Alert
         onClose={handleClose}
         severity={alert.severity}
-        variant="filled"
+        variant='filled'
         sx={{ width: '100%' }}
       >
         {alert.message}

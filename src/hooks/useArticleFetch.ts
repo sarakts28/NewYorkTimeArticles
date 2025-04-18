@@ -10,26 +10,26 @@ interface ArticleProps {
   published_date: string;
 }
 const useArticleFetch = () => {
-// useState to manage articles, search text, and selected duration
+  // useState to manage articles, search text, and selected duration
   const [articles, setArticles] = useState<ArticleProps[]>([]);
   const [searchText, setSearchText] = useState<string>('');
   const [selectedDuration, setSelectedDuration] = useState<string>('1');
   const [apiData, setApiData] = useState<ArticleProps[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
-  const [alertMessage, setAlertMessage] = useState<{message: string, type: string}>({
+  const [alertMessage, setAlertMessage] = useState<{ message: string; type: string }>({
     message: '',
-    type: ''});
+    type: '',
+  });
 
   const nytApiKey = 'X45C9DdzwdjJDZUsJcCjBhXoyE6rAq0b';
   const nytUrl = 'https://api.nytimes.com/svc/mostpopular/v2/viewed/';
- 
 
   // fecth articles for api
-  const fetchData =  useCallback(async() => {
+  const fetchData = useCallback(async () => {
     setLoading(true);
     try {
       const response = await axios.get(`${nytUrl}${selectedDuration}.json?api-key=${nytApiKey}`);
-      if(response.status === 200){
+      if (response.status === 200) {
         const data = (response.data as { results: any[] })?.results.map((item: any) => ({
           id: item.id,
           title: item.title,
@@ -51,11 +51,9 @@ const useArticleFetch = () => {
         message: err.message,
         type: 'error',
       });
-    } 
+    }
     setLoading(false);
-  },[selectedDuration]);
-
-
+  }, [selectedDuration]);
 
   const updateSelectedArticle = useCallback((id: number) => {
     setArticles((prevArticles) =>
@@ -66,36 +64,34 @@ const useArticleFetch = () => {
     );
   }, []);
 
-    const filterArticles = useCallback(() => {
-        if (searchText) {
-        
-        const filteredArticles = articles.filter((article) =>
+  const filterArticles = useCallback(() => {
+    if (searchText) {
+      const filteredArticles = articles.filter((article) =>
         article.title.toLowerCase().includes(searchText.toLowerCase())
-        );
-        setArticles(filteredArticles);
-        return;
+      );
+      setArticles(filteredArticles);
+      return;
     }
-        setArticles(apiData);
-
-    },[searchText]);
+    setArticles(apiData);
+  }, [searchText]);
 
   useEffect(() => {
     fetchData();
-}, [selectedDuration]);
+  }, [selectedDuration]);
 
-useEffect(() => {
+  useEffect(() => {
     filterArticles();
-}, [searchText]);
+  }, [searchText]);
 
-    return {
-        loading,
-        alertMessage,
-        updateSelectedArticle,
-        articles,
-        searchText,
-        setSearchText,
-        selectedDuration,
-        setSelectedDuration,
-    };
+  return {
+    loading,
+    alertMessage,
+    updateSelectedArticle,
+    articles,
+    searchText,
+    setSearchText,
+    selectedDuration,
+    setSelectedDuration,
+  };
 };
 export default useArticleFetch;

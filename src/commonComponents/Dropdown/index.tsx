@@ -1,37 +1,30 @@
 import React from 'react';
-import {
-  FormControl,
-  Select,
-  MenuItem,
-  FormHelperText,
-  SelectChangeEvent,
-} from '@mui/material';
+import { FormControl, Select, MenuItem, FormHelperText, SelectChangeEvent } from '@mui/material';
 
 interface Option {
   value: string | number;
   label: string;
-
 }
 
-interface DropDownProps  {
+interface DropDownProps {
   options: Option[];
   value: string | null;
   placeholder?: string;
   width?: string | number;
   helpText?: string;
   onChange?: (event: SelectChangeEvent<string | number>) => void;
-};
+}
 
 const DropDown: React.FC<DropDownProps> = ({
   options,
   onChange,
   value,
-  helpText, 
+  helpText,
   placeholder = 'Select an option',
   width = '100%',
 }) => {
   return (
-    <FormControl sx={{  width }} size="small">
+    <FormControl sx={{ width }} size='small'>
       <Select
         value={value || ''}
         onChange={onChange}
@@ -45,7 +38,7 @@ const DropDown: React.FC<DropDownProps> = ({
         }}
         sx={{ width: '100%' }}
       >
-        {options.map((option:Option) => (
+        {options.map((option: Option) => (
           <MenuItem key={option.value} value={option.value}>
             {option.label}
           </MenuItem>
