@@ -6,7 +6,7 @@ interface ArticleProps {
   description: string;
   image: string;
   url: string;
-  isSelected: boolean;
+  isselected: boolean;
   published_date: string;
 }
 const useArticleFetch = () => {
@@ -29,30 +29,48 @@ const useArticleFetch = () => {
     setLoading(true);
     try {
       const response = await axios.get(`${nytUrl}${selectedDuration}.json?api-key=${nytApiKey}`);
+
       if (response.status === 200) {
-        const data = (response.data as { results: any[] })?.results.map((item: any) => ({
-          id: item.id,
-          title: item.title,
-          description: item.abstract,
-          image: item.media[0]['media-metadata'][2].url,
-          url: item.url,
-          isSelected: false,
-          published_date: item.published_date,
-        }));
+        const results = response.data?.results || [];
+
+        const data = results.map((item: any) => {
+          // Safely get image URL with fallbacks
+
+          return {
+            id: item.id || Math.random().toString(36).substring(2, 9), // fallback ID
+            title: item.title || 'No title available',
+            description: item.abstract || '',
+            image:
+              item.media?.[0]?.['media-metadata']?.[2]?.url ||
+              item.media?.[0]?.['media-metadata']?.[0]?.url ||
+              '',
+            url: item.url || '#',
+            isselected: false,
+            published_date: item.published_date || '',
+          };
+        });
+
         setApiData(data);
         setArticles(data);
         setAlertMessage({
-          message: 'Articles fetched successfully',
+          message: `Articles fetched successfully for last ${selectedDuration} day${selectedDuration !== '1' ? 's' : ''}`,
           type: 'success',
+        });
+      } else {
+        setAlertMessage({
+          message: 'Failed to fetch articles: Invalid response',
+          type: 'error',
         });
       }
     } catch (err: any) {
+      console.error('Error fetching articles:', err);
       setAlertMessage({
-        message: err.message,
+        message: `Failed to fetch articles: ${err.message || 'Unknown error'}`,
         type: 'error',
       });
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
   }, [selectedDuration]);
 
   const updateSelectedArticle = useCallback((id: number) => {
@@ -76,6 +94,7 @@ const useArticleFetch = () => {
   }, [searchText]);
 
   useEffect(() => {
+    console.log('selectedDuration', selectedDuration);
     fetchData();
   }, [selectedDuration]);
 

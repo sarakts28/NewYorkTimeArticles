@@ -16,7 +16,7 @@ interface ArticleCardProps {
     description: string;
     image: string;
     url: string;
-    isSelected: boolean;
+    isselected: boolean;
     published_date: string;
   };
 }
@@ -26,7 +26,7 @@ const ArticleCard = ({ item }: ArticleCardProps) => {
   };
   return (
     <Box sx={{ padding: 2 }}>
-      <ArticleCardContainer isSelected={item.isSelected}>
+      <ArticleCardContainer isselected={item.isselected ? 'true' : 'false'}>
         <CardMedia
           sx={{
             height: 140, // Increased height for better visibility
