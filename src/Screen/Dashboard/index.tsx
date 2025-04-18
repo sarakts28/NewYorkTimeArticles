@@ -30,7 +30,7 @@ const Dashboard = () => {
     }
   }, [alertMessage]);
 
-  const handleCloseAlert = (event?: React.SyntheticEvent | Event, reason?: string) => {
+  const handleCloseAlert = (_event?: React.SyntheticEvent | Event, reason?: string) => {
     if (reason === 'clickaway') {
       return;
     }
