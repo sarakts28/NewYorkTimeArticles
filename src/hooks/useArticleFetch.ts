@@ -94,7 +94,6 @@ const useArticleFetch = () => {
   }, [searchText]);
 
   useEffect(() => {
-    console.log('selectedDuration', selectedDuration);
     fetchData();
   }, [selectedDuration]);
 
