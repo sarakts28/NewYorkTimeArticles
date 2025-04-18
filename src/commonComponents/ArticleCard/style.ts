@@ -2,15 +2,16 @@ import styled from '@emotion/styled';
 import { Card, Typography, Box } from '@mui/material';
 
 interface ArticleCardContainerProps {
-  isSelected?: boolean;
+  isselected: string;
 }
 
 export const ArticleCardContainer = styled(Card)<ArticleCardContainerProps>`
   width: 300px;
   height: 400px;
-  border: ${({ isSelected }) => (isSelected ? '2px solid red' : '1px solid rgba(0, 0, 0, 0.12)')};
-  box-shadow: ${({ isSelected }) =>
-    isSelected
+  border: ${({ isselected }) =>
+    isselected === 'true' ? '2px solid red' : '1px solid rgba(0, 0, 0, 0.12)'};
+  box-shadow: ${({ isselected }) =>
+    isselected === 'true'
       ? '0px 3px 5px -1px rgba(0,0,0,0.2), 0px 5px 8px 0px rgba(0,0,0,0.14), ' +
         '0px 1px 14px 0px rgba(0,0,0,0.12)'
       : '0px 2px 1px -1px rgba(0,0,0,0.2), 0px 1px 1px 0px rgba(0,0,0,0.14), ' +
@@ -18,10 +19,10 @@ export const ArticleCardContainer = styled(Card)<ArticleCardContainerProps>`
   transition: all 0.3s ease;
 
   &:hover {
-    border: ${({ isSelected }) =>
-      isSelected ? '2px solid darkred' : '1px solid rgba(0, 0, 0, 0.3)'};
-    box-shadow: ${({ isSelected }) =>
-      isSelected
+    border: ${({ isselected }) =>
+      isselected === 'true' ? '2px solid darkred' : '1px solid rgba(0, 0, 0, 0.3)'};
+    box-shadow: ${({ isselected }) =>
+      isselected === 'true'
         ? '0px 7px 9px -1px rgba(0,0,0,0.3), ' +
           '0px 10px 12px 0px rgba(0,0,0,0.24), ' +
           '0px 5px 16px 0px rgba(0,0,0,0.22)'

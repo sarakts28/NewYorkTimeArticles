@@ -5,11 +5,10 @@ import {
   NoArticlesText,
   LoaderContainer,
 } from './style';
-import { AlertNotification, ArticleCard, DropDown, SearchInput } from '../../commonComponents';
-import { Box, CircularProgress, Typography } from '@mui/material';
+import { ArticleCard, DropDown, SearchInput } from '../../commonComponents';
+import { Box, CircularProgress, Typography, Snackbar, Alert } from '@mui/material';
 import useArticleFetch from '../../hooks/useArticleFetch';
-import { useEffect, useRef } from 'react';
-import { AlertNotificationHandle } from '../../commonComponents/Alert';
+import { useState, useEffect } from 'react';
 
 const Dashboard = () => {
   const {
@@ -23,21 +22,38 @@ const Dashboard = () => {
     loading,
   } = useArticleFetch();
 
-  const alertRef = useRef<AlertNotificationHandle>(null);
+  const [openAlert, setOpenAlert] = useState(false);
 
   useEffect(() => {
     if (alertMessage.message) {
-      if (alertMessage.type === 'error') {
-        alertRef.current?.showAlert(alertMessage.message, alertMessage.type);
-      } else {
-        alertRef.current?.showAlert(alertMessage.message);
-      }
+      setOpenAlert(true);
     }
-  }, [alertMessage.message, alertMessage.type]);
+  }, [alertMessage]);
+
+  const handleCloseAlert = (event?: React.SyntheticEvent | Event, reason?: string) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setOpenAlert(false);
+  };
 
   return (
     <>
       <MainContainer>
+        <Snackbar
+          open={openAlert}
+          autoHideDuration={2000}
+          onClose={handleCloseAlert}
+          anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+        >
+          <Alert
+            onClose={handleCloseAlert}
+            severity={alertMessage.type === 'success' ? 'success' : 'error'}
+          >
+            {alertMessage.message}
+          </Alert>
+        </Snackbar>
+
         <Container>
           <DropDown
             options={[
@@ -74,7 +90,6 @@ const Dashboard = () => {
           )}
         </ArticleContainer>
       </MainContainer>
-      <AlertNotification ref={alertRef} />
     </>
   );
 };
